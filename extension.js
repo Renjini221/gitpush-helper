@@ -148,5 +148,20 @@ async function runSimpleGitCommand(cmd.label){
     terminal.show(true);
     terminal.sendText('git status');
  }
+ function getWorkspacePath(){
+    const folders=vscode.workspace.workspaceFolders;
+    if(!folders||folders.length===0){
+        vscode.window.showErrorMessage(
+            'No wrokspace open.pls open a project folder first.'
+        );
+        return null;
+    }
+    return folders[0].uri.fsPath;
+ }
+ function escapeQuotes(str){
+    return str.replace(/"/g,'\\"');
+ }
+ function deactivate(){}
+ module.exports={activate,deactivate};
 }
 
