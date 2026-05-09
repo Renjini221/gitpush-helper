@@ -43,11 +43,11 @@
                     "icon":"$(terminal)"
                 }
     ],
-    "viewsContainers": {
-        "activitybar":[
+       "viewsContainers": {
+               "activitybar":[
             {
                 "id":"gitpush-sidebar",
-                "title":"gitpush",
+                    "title":"gitpush",
                   "icon":"resources/icon.svg"
             }
         ]
@@ -57,9 +57,9 @@
             {
                 "type":"webview",
                 "id":"gitpush.sidebar",
-                  "name":"gitpush",
+                    "name":"gitpush",
                 "icon":"resources/icon.svg",
-                "contextualTitle": "gitpush"
+                  "contextualTitle": "gitpush"
             }
         ]
     },
