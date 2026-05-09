@@ -140,6 +140,13 @@ async function runSimpleGitCommand(cmd.label){
         }
     );
 }
-
+ function openGitTerminal(){
+    const terminal=vscode.window.createTerminal({
+        name:'Githelper terminal',
+        cwd:getWorkspacePath()||undefined,
+    });
+    terminal.show(true);
+    terminal.sendText('git status');
+ }
 }
 
