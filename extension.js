@@ -59,11 +59,64 @@ await vscode.window.withProgress(
      try{
         progress.report({message:'Initialising repository...',increament:10});
         await execCommand('git init',workspacePath);
+         
+        progress.report({message:'staging all files...',increment:30});
+        await execCommand('git add .',workspacePath);
+    
+        progress.report({message:'Committing changes.....', increment:20});
+        await execCommand(`git commit -m "${escapeQuotes(commitMsg)}"`,workspacePath);
 
+        const hasRemote=await hasRemoteOrigin(workspacePath);
+        if(!hasRemote){
+            vscode.window.showWarningMessage(
+                'No remote origin set.run:git remote add origin <URL>'
 
+            );
+            return;
+        }
+        progress.report({message:'Pushing to Github....',increment:40});
+        await execCommand('git push',workspacePath);
+
+        vscode.window.showInformationMessage('Successfully pushed to Github!');
+
+     }catch(err){
+        vscode.window.showErrorMessage(`push failed:${err.message}`);
      }
     }
 
-)
-    
+);
+  async function quickCommit(){
+    const workspacePath=getWorkspacePath();
+    if(!workspacePath) return;
+    const commitMsg=await vscode.window.showInputBox({
+        prompt:'Commit message',
+        placeHolder:'blah blah blah!',
+        validateInput:(val)=>(val.trim()? null:'cannot be empty'),
+        
+    });
+    if(!commitMsg) return;
+
+    await vscode.window.withProgress(
+        {
+            location:vscode.ProgressLocation.Notification,
+            title:'$(check)gitpush-committing',
+            cancellable:false,
+        },
+        async(progress)=>{
+            try{
+                progress.report({message:'Staging...',increment:40});
+                await execCommand('git add .',workspacePath);
+
+                progress.report({message:'Committing..',increment:60});
+                await execCommand(`git commit -m "${escapeQuotes(commitMsg)}"`,workspacePath);
+
+                vscode.window.showInformationMessage('Committed Successfully');
+
+            }catch(err){
+                vscode.window.showErrorMessage(`Commit failed:${err.message}`);
+            }
+        }
+    );
+}  
 }
+
