@@ -1,0 +1,85 @@
+{
+
+"name":"gitpush",
+"displayName":"Githelper",
+"description":"Push and manage your code directly from VS code",
+"version":"1.0.0",
+"publisher":"Sreepathi",
+"engines":{"vscode":"^1.80.0"},
+"categories": ["SCM Providers","Other"],
+"icon":"resources/icon.png",
+"activationEvents": ["onStartupFinished"],
+"main":"./extension.js",
+"contributes": {
+    "commands":[
+        {
+            "command":"gitpush.pushToGitHub",
+            "title":"Push Project to github",
+            "category":"GitPush",
+            "icon":"$(cloud-upload)"
+        },
+        {
+            "command":"gitpush.pull",
+            "title":"Pull from Github",
+              "category":"Gitpush",
+            "icon":"$(cloud-download)"
+    },
+          {
+            "command":"gitpush.commit",
+            "title":"Quick Commit",
+            "category":"Gitpush",
+            "icon":"$(check)"
+                },
+                {
+                    "command":"gitpush.createGitignore",
+                    "title":"Create.gitignore",
+                    "category":"GitPush",
+                      "icon":"$(file-add)"
+                },
+                {
+                    "command":"gitpush.openTerminal",
+                    "title":"Open gIt terminall",
+                    "category":"Gitpush",
+                    "icon":"$(terminal)"
+                }
+    ],
+    "viewsContainers": {
+        "activitybar":[
+            {
+                "id":"gitpush-sidebar",
+                "title":"gitpush",
+                  "icon":"resources/icon.svg"
+            }
+        ]
+    },
+    "views":{
+        "gitpush-sidebar":[
+            {
+                "type":"webview",
+                "id":"gitpush.sidebar",
+                  "name":"gitpush",
+                "icon":"resources/icon.svg",
+                "contextualTitle": "gitpush"
+            }
+        ]
+    },
+    "menu":{
+        "view/title":[
+            {
+                "command":"gitpush.pushToGitHub",
+                "when":"view==gitpush.sidebar",
+                "group":"navigation"
+            }
+        ]
+    }
+},
+"scripts":{
+      "lint":"eslint .",
+    "pretest":"npm run lint"
+},
+"devDependencies":{
+    "@types/vscode":"^1.80.0",
+      "eslint":"^8.47.0"
+}
+
+}
