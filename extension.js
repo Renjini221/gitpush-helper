@@ -118,5 +118,28 @@ await vscode.window.withProgress(
         }
     );
 }  
+async function runSimpleGitCommand(cmd.label){
+    const workspacePath=getWorkspacePath();
+    if(!workspacePath) return;
+    await vscode.window.withProgress(
+        {
+            location:vscode.ProgressLocation.Notification,
+            title:`$(sync)Gitpush-${label}`,
+            cacellable:false,
+        },
+        async(progress)=>{
+            try{
+                progress.report({message:`runnin ${cmd}...`,increment:50});
+                const output = await execCommand(cmd ,workspacePath);
+                vscode.window.showInformationMessage(
+                    `${label} complete! ${output.trim()}`
+                );
+            }catch(err){
+                vscode.window.showErrorMessage(`${label} failed:`)
+            }
+        }
+    );
+}
+
 }
 
